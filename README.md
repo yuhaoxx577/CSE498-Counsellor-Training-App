@@ -1,55 +1,71 @@
-# Chatbot Project with LLM APIs (OpenAI and Gemini)
+# Counsellor Training App
 
-This project implements two chatbots using different LLM (Large Language Model) APIs: OpenAI and Gemini. Each bot has specific capabilities and uses ChainLit for the UI implementation.
+A Python application for practising counselling conversations with AI simulated patients. The interface uses Streamlit, Gemini generates conversations and feedback, and SQLite stores accounts and patient records.
 
-## 1. chatbot_using_openai
+## Features
 
-### Features:
-- **Text, Image, and Audio Handling:** This bot can process text queries, images via URLs or base64 encoding, and audio files for transcription.
-- **Historical Prompt Handling:** It can save and utilize historical prompts to enhance responses.
-- **Integration with ChainLit:** Uses ChainLit for UI interaction.
+- Register, log in, and log out.
+- Create simulated patients with a gender, age group, cultural background, and main concern.
+- Let the simulated patient begin the conversation.
+- Practise a multi-turn counselling conversation.
+- Receive scores, strengths, and suggestions after ending a session.
+- Save a session summary for the patient's next conversation.
+- Add anonymous real-patient training records, update notes, and delete records.
+- Keep patient records separate for each user account.
 
-### Functionality:
-- **Text Handling:** Accepts text inputs and generates responses using OpenAI's chat completion API.
-- **Image Handling:** Converts images to base64 format and includes them in responses.
-- **Audio Handling:** Transcribes audio files using OpenAI's audio transcription service.
+## Setup
 
-### Usage:
-- Ensure dependencies are installed (see `requirements.txt`).
-- Run the bot script (`chatbot_using_openai.py`) to start interacting via ChainLit UI.
+The application was tested with Python 3.10.
 
-## 2. chatbot_using_gemini
+1. Install the dependencies:
 
-### Features:
-- **Image and Text Handling:** This bot focuses on handling images and text queries.
-- **No Audio Support:** Gemini API currently lacks audio processing capabilities for now.
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-### Functionality:
-- **Image Handling:** Processes images and integrates them into responses.
-- **Text Handling:** Responds to text queries using Gemini's capabilities.
-- **Integration with ChainLit:** Utilizes ChainLit for UI interaction, similar to the OpenAI bot.
+2. Copy the configuration example:
 
-### Usage:
-- Dependencies are listed in `requirements.txt`.
-- Execute the bot script (`chatbot_using_gemini.py`) to interact with the UI provided by ChainLit.
+   ```bash
+   cp .env.example .env
+   ```
 
-## Dependencies
+3. Edit `.env` and replace the placeholder with your own Gemini API key:
 
-Ensure the following dependencies are installed using `pip install -r requirements.txt`:
-- `openai`: For interacting with OpenAI's API.
-- `gemini`: For using Gemini's API (specific installation instructions may vary).
-- `chainlit`: For implementing the user interface.
+   ```text
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
 
-## Getting Started
+4. Start the application:
 
-1. Clone this repository.
-2. Install dependencies using `pip install -r requirements.txt`.
-3. Add API key in the chatbot file you want to use.
-3. Run `chatbot_using_openai.py` or `chatbot_using_gemini.py` based on your chosen bot.
-4. Follow the prompts on the ChainLit UI to interact with the chatbot.
+   ```bash
+   streamlit run app.py
+   ```
 
-## Contributing
+The SQLite database is created automatically when the application starts.
 
-Contributions are welcome! If you'd like to enhance functionality, add features, or improve documentation, feel free to fork this repository and submit a pull request.
+## How to Use
 
-![Screen shot of bot processing image](image.png)
+Register an account and log in. Choose Simulated Patients and create a patient. The AI patient starts the conversation, and you respond as the counsellor. Select End Session and Get Feedback to receive an evaluation and save a summary.
+
+Choose Real Patients to add anonymous training records, edit session notes, or delete a record.
+
+## Main Files
+
+- `app.py`: Login, registration, and page navigation.
+- `database.py`: User account storage and authentication.
+- `patients.py`: Simulated patient storage and session summaries.
+- `ai_service.py`: Gemini prompts and API calls.
+- `chat_page.py`: Conversation interface and session feedback.
+- `real_patients.py`: Anonymous records and notes.
+- `requirements.txt`: Required Python packages.
+- `.env.example`: API key configuration example.
+
+## Limitations
+
+This is a coursework training prototype, not a clinical application. AI feedback may be inaccurate and is not a substitute for supervision. Use fictional or anonymous test data.
+
+Conversation messages and feedback are kept in the current Streamlit session. The patient summary is saved in SQLite, but full transcripts and feedback history are not stored permanently.
+
+Gemini features require internet access and a valid API key with access to the model configured in `ai_service.py`. API limits or model availability may affect operation.
+
+Do not upload your `.env` file or local database to GitHub.
